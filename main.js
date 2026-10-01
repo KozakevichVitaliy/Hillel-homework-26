@@ -43,7 +43,7 @@ function trackMousePosition() {
   });
 };
 
-console.log(trackMousePosition());
+// console.log(trackMousePosition());
 
 /*
  * #3
@@ -62,21 +62,31 @@ function createTestList() {
   document.body.innerHTML = `
     <ul id="testList">
       <li>Item 1</li>
-      <li>Item 2</li>
+      <li>Item 2<span>fgfdg</span></li>
       <li>Item 3</li>
     </ul>
     `
 }
-createTestList()
 
 function setupEventDelegation(selector) {
   document.querySelector(selector).addEventListener('click', (event) => {
-    console.log(`Item clicked: ${event.target.innerHTML.trim()}`);
-    event.stopPropagation();
+      console.log(event.target);
+      console.log(`Item clicked: ${event.target.closest('li').innerText.trim()}`);
   })
 }
 
-setupEventDelegation('#testList')
+function catchEventErrors (func, selector) {
+  try {
+    func(selector)
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.error("This error is instance of 'TypeError'");
+    }
+  }
+}
+
+createTestList();
+catchEventErrors(setupEventDelegation, '#testList')
 
 // Експорт функції для використання та тестування
 // export { handleButtonClick, trackMousePosition, setupEventDelegation }
